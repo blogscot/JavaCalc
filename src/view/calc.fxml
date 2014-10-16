@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane prefHeight="460.0" prefWidth="390.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="builder.Controller">
+   <children>
+      <SplitPane dividerPositions="0.17695473251028807" layoutX="35.0" layoutY="44.0" orientation="VERTICAL" prefHeight="488.0" prefWidth="373.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <items>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <Label fx:id="output" alignment="CENTER_RIGHT" layoutX="46.0" layoutY="33.0" prefHeight="82.0" prefWidth="371.0" text="0.0" textAlignment="RIGHT" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+               <children>
+                  <VBox layoutX="114.0" layoutY="45.0" prefHeight="396.0" prefWidth="371.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox minHeight="250.0" prefHeight="250.0" prefWidth="396.0">
+                                 <children>
+                                    <HBox prefHeight="60.0" prefWidth="190.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="90.0" text="MC">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="90.0" text="M+">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="90.0" text="M-">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="90.0" text="MR">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="60.0" prefWidth="190.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#clearAll" prefHeight="104.0" prefWidth="90.0" text="C">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#reverseSign" prefHeight="73.0" prefWidth="90.0" text="±">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#divide" prefHeight="87.0" prefWidth="90.0" text="/">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="18.0" />
+                                             </font>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#multiply" prefHeight="80.0" prefWidth="90.0" text="x">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="60.0" prefWidth="190.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#seven" prefHeight="80.0" prefWidth="90.0" text="7">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#eight" prefHeight="87.0" prefWidth="90.0" text="8">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#nine" prefHeight="73.0" prefWidth="90.0" text="9">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#minus" prefHeight="104.0" prefWidth="90.0" text="-">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="60.0" prefWidth="200.0">
+                                       <children>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#four" prefHeight="104.0" prefWidth="90.0" text="4">
+                                             <HBox.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#five" prefHeight="73.0" prefWidth="90.0" text="5">
+                                             <HBox.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#six" prefHeight="87.0" prefWidth="90.0" text="6">
+                                             <HBox.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#plus" prefHeight="80.0" prefWidth="90.0" text="+">
+                                             <HBox.margin>
+                                                <Insets left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                        <HBox prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <VBox minHeight="150.0" prefHeight="150.0" prefWidth="340.0">
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                                 <children>
+                                    <HBox prefHeight="60.0" prefWidth="200.0">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                       <children>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#one" prefHeight="87.0" prefWidth="90.0" text="1">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#two" prefHeight="73.0" prefWidth="90.0" text="2">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#three" prefHeight="104.0" prefWidth="90.0" text="3">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                    <HBox prefHeight="60.0" prefWidth="200.0">
+                                       <children>
+                                          <Button minWidth="185.0" mnemonicParsing="false" onAction="#zero" prefHeight="73.0" prefWidth="90.0" text="0">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                          </Button>
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#decimal" prefHeight="87.0" prefWidth="90.0" text=".">
+                                             <HBox.margin>
+                                                <Insets bottom="5.0" left="5.0" top="5.0" />
+                                             </HBox.margin>
+                                             <font>
+                                                <Font size="24.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                    </HBox>
+                                 </children>
+                              </VBox>
+                              <VBox prefHeight="200.0" prefWidth="195.0">
+                                 <children>
+                                    <Button minHeight="115.0" minWidth="90.0" mnemonicParsing="false" onAction="#evaluate" prefHeight="87.0" prefWidth="90.0" text="=">
+                                       <VBox.margin>
+                                          <Insets left="5.0" />
+                                       </VBox.margin>
+                                       <font>
+                                          <Font size="24.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+        </items>
+      </SplitPane>
+   </children>
+</AnchorPane>
