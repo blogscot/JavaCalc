@@ -9,9 +9,10 @@ import javafx.scene.control.Label;
 
 public class Controller implements Initializable{
 
-	private float lastNumber;
-	private float currentNumber;
-	private char lastOperation;
+	private float lastNumber = 0f;
+	private float currentNumber = 0f;
+	private float memory = 0f;
+	private char lastOperation = ' ';
 	private boolean waitingOperator = false;
 	
 	private float getCurrentNumber() {
@@ -50,7 +51,6 @@ public class Controller implements Initializable{
 		}
 		// following evaluation users can chain operators but not digits
 		waitingOperator = true;
-		lastOperation = ' ';
 		output.setText(String.valueOf(lastNumber));
 	}
 	
@@ -87,6 +87,19 @@ public class Controller implements Initializable{
 	public void zero(){
 		updateCurrentNumber(0);
 	}
+	public void memClear()
+	{
+		memory = 0f;
+	}
+	public void memPlus(){
+		memory += getCurrentNumber();
+	}
+	public void memMinus(){
+		memory -= getCurrentNumber();
+	}
+	public void memRecall(){
+		output.setText(String.valueOf(memory));
+	}
 	public void plus(){
 		if (lastOperation != ' ') {
 			evaluateResult();
@@ -113,7 +126,6 @@ public class Controller implements Initializable{
 			output.setText("0");
 			lastOperation = '/';
 		}
-
 	}
 	public void multiply(){
 		if (lastOperation != ' ') {
@@ -123,7 +135,6 @@ public class Controller implements Initializable{
 			output.setText("0");
 			lastOperation = '*';
 		}
-
 	}
 	public void decimal(){
 		// TODO

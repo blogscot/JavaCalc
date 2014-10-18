@@ -33,7 +33,7 @@
                                           <Insets />
                                        </VBox.margin>
                                        <children>
-                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="71.0" prefWidth="90.0" text="MC">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#memClear" prefHeight="71.0" prefWidth="90.0" text="MC">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" top="5.0" />
                                              </HBox.margin>
@@ -41,7 +41,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Button>
-                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="76.0" prefWidth="90.0" text="M+">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#memPlus" prefHeight="76.0" prefWidth="90.0" text="M+">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" top="5.0" />
                                              </HBox.margin>
@@ -49,7 +49,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Button>
-                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="86.0" prefWidth="90.0" text="M-">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#memMinus" prefHeight="86.0" prefWidth="90.0" text="M-">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" top="5.0" />
                                              </HBox.margin>
@@ -57,7 +57,7 @@
                                                 <Font size="18.0" />
                                              </font>
                                           </Button>
-                                          <Button minWidth="90.0" mnemonicParsing="false" prefHeight="78.0" prefWidth="90.0" text="MR">
+                                          <Button minWidth="90.0" mnemonicParsing="false" onAction="#memRecall" prefHeight="78.0" prefWidth="90.0" text="MR">
                                              <HBox.margin>
                                                 <Insets bottom="5.0" left="5.0" top="5.0" />
                                              </HBox.margin>
