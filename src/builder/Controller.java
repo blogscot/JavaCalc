@@ -7,158 +7,193 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class Controller implements Initializable{
+public class Controller implements Initializable {
 
-	private float lastNumber = 0f;
-	private float currentNumber = 0f;
-	private float memory = 0f;
-	private char lastOperation = ' ';
-	private boolean startNewNumber = false;
-	
-	/**
-	 * @return the displayed text as a Float
-	 * 
-	 */
-	private float getCurrentNumber() {
-		return Float.parseFloat(output.getText());
+	private double storedNumber = 0;
+	private double currentNumber = 0;
+	private int decimalPlace = 0;
+	private double memory = 0;
+	private static final char CLEAR = ' ';
+	private char operatorKey = CLEAR;
+	private boolean startNewNumber = true;
+
+	private void displayNumber(double value) {
+		output.setText(Double.toString(value));
 	}
-	
+
 	/**
-	 * The displayed number is built up and displayed
-	 * as the user issues keystrokes.
+	 * The displayed number is built up and displayed as the user issues
+	 * keystrokes.
 	 * 
-	 * @param 	value the value key pressed by the user
+	 * @param value
+	 *            the value key pressed by the user
 	 */
-	private void updateCurrentNumber(float value){
+	private void updateCurrentNumber(double value) {
 		// After the user presses an operator key start displaying a new number
 		if (startNewNumber) {
-			output.setText(Float.toString(value));
+			currentNumber = value;
 			startNewNumber = false;
+			decimalPlace = 0;
 		} else {
-			output.setText(Float.toString(getCurrentNumber() * 10 + value));
+			if (decimalPlace == 0) {
+				currentNumber = currentNumber * 10 + value;
+			} else {
+				currentNumber += value / Math.pow(10, decimalPlace);
+				decimalPlace += 1;
+			}
 		}
+		displayNumber(currentNumber);
 	}
+
 	/**
 	 * The user has pressed an operator key (i.e. +, - etc.)
 	 * 
-	 * @param c		operator key pressed
+	 * @param c
+	 *            operator key pressed
 	 */
 	private void processOperator(char c) {
-		
+
 		startNewNumber = true;
-		
-		if (lastOperation != ' ') {
-			evaluateResult();
+
+		if (operatorKey == CLEAR) {
+			// store current number and the operator pressed
+			// in preparation for next number
+			storedNumber = currentNumber;
+			operatorKey = c;
 		} else {
-			lastNumber = getCurrentNumber();
-			lastOperation = c;
+			// chaining operators (ie. 1+1+...)
+			evaluateResult();
 		}
 	}
 
 	/**
 	 * 
-	 * When the user presses '=' or an operator key 
-	 * the current value is evaluated and displayed.
+	 * When the user presses '=' or an operator key the current value is
+	 * evaluated and displayed.
 	 * 
 	 */
 	private void evaluateResult() {
-		currentNumber = getCurrentNumber();
-		
-		switch (lastOperation){
+
+		switch (operatorKey) {
 		case '/':
-			lastNumber /= currentNumber;
+			storedNumber /= currentNumber;
 			break;
 		case '*':
-			lastNumber *= currentNumber;
+			storedNumber *= currentNumber;
 			break;
 		case '-':
-			lastNumber -= currentNumber;
+			storedNumber -= currentNumber;
 			break;
 		case '+':
-			lastNumber += currentNumber;
+			storedNumber += currentNumber;
 			break;
 		default:
-			lastNumber = 0;
-			lastOperation = ' ';
+			storedNumber = 0;
+			operatorKey = CLEAR;
 		}
-		output.setText(String.valueOf(lastNumber));
+		currentNumber = storedNumber;
+		displayNumber(currentNumber);
 	}
-	
+
 	@FXML
 	private Label output;
-	
-	public void one(){
+
+	public void one() {
 		updateCurrentNumber(1);
 	}
-	public void two(){
+
+	public void two() {
 		updateCurrentNumber(2);
 	}
-	public void three(){
+
+	public void three() {
 		updateCurrentNumber(3);
 	}
-	public void four(){
+
+	public void four() {
 		updateCurrentNumber(4);
 	}
-	public void five(){
+
+	public void five() {
 		updateCurrentNumber(5);
 	}
-	public void six(){
+
+	public void six() {
 		updateCurrentNumber(6);
 	}
-	public void seven(){
+
+	public void seven() {
 		updateCurrentNumber(7);
 	}
-	public void eight(){
+
+	public void eight() {
 		updateCurrentNumber(8);
 	}
-	public void nine(){
+
+	public void nine() {
 		updateCurrentNumber(9);
 	}
-	public void zero(){
+
+	public void zero() {
 		updateCurrentNumber(0);
 	}
-	public void memClear()
-	{
+
+	public void memClear() {
 		memory = 0f;
 	}
-	public void memPlus(){
-		memory += getCurrentNumber();
+
+	public void memPlus() {
+		memory += currentNumber;
 	}
-	public void memMinus(){
-		memory -= getCurrentNumber();
+
+	public void memMinus() {
+		memory -= currentNumber;
 	}
-	public void memRecall(){
+
+	public void memRecall() {
 		output.setText(String.valueOf(memory));
 	}
-	public void plus(){
+
+	public void plus() {
 		processOperator('+');
 	}
-	public void minus(){
+
+	public void minus() {
 		processOperator('-');
 	}
-	public void divide(){
+
+	public void divide() {
 		processOperator('/');
 	}
-	public void multiply(){
+
+	public void multiply() {
 		processOperator('*');
 	}
-	public void decimal(){
-		// TODO
+
+	public void decimal() {
+		if (decimalPlace == 0){
+			decimalPlace = 1;
+		}
 	}
-	public void evaluate(){
+
+	public void evaluate() {
 		evaluateResult();
 		startNewNumber = true;
-		lastOperation = ' ';
+		operatorKey = CLEAR;
 	}
-	public void reverseSign(){
-		output.setText(String.valueOf(getCurrentNumber() * -1f));
+
+	public void reverseSign() {
+		currentNumber *= -1;
+		displayNumber(currentNumber);
 	}
-	public void clearAll(){
+
+	public void clearAll() {
 		output.setText("0.0");
-		lastNumber = 0f;
-		lastOperation = ' ';
+		storedNumber = 0;
+		decimalPlace = 0;
+		operatorKey = CLEAR;
 	}
-	
+
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
