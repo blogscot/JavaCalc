@@ -13,7 +13,7 @@ public class Controller implements Initializable{
 	private float currentNumber = 0f;
 	private float memory = 0f;
 	private char lastOperation = ' ';
-	private boolean operatorActive = false;
+	private boolean startNewNumber = false;
 	
 	/**
 	 * @return the displayed text as a Float
@@ -30,9 +30,10 @@ public class Controller implements Initializable{
 	 * @param 	value the value key pressed by the user
 	 */
 	private void updateCurrentNumber(float value){
-		if (getCurrentNumber() == 0f || operatorActive) {
+		// After the user presses an operator key start displaying a new number
+		if (startNewNumber) {
 			output.setText(Float.toString(value));
-			operatorActive = false;
+			startNewNumber = false;
 		} else {
 			output.setText(Float.toString(getCurrentNumber() * 10 + value));
 		}
@@ -43,11 +44,13 @@ public class Controller implements Initializable{
 	 * @param c		operator key pressed
 	 */
 	private void processOperator(char c) {
+		
+		startNewNumber = true;
+		
 		if (lastOperation != ' ') {
 			evaluateResult();
 		} else {
 			lastNumber = getCurrentNumber();
-			output.setText("0");
 			lastOperation = c;
 		}
 	}
@@ -77,10 +80,7 @@ public class Controller implements Initializable{
 		default:
 			lastNumber = 0;
 			lastOperation = ' ';
-			output.setText("NaN");
 		}
-		// following evaluation users can chain operators but not digits
-		operatorActive = true;
 		output.setText(String.valueOf(lastNumber));
 	}
 	
@@ -147,12 +147,14 @@ public class Controller implements Initializable{
 	}
 	public void evaluate(){
 		evaluateResult();
+		startNewNumber = true;
+		lastOperation = ' ';
 	}
 	public void reverseSign(){
 		output.setText(String.valueOf(getCurrentNumber() * -1f));
 	}
 	public void clearAll(){
-		output.setText("0");
+		output.setText("0.0");
 		lastNumber = 0f;
 		lastOperation = ' ';
 	}
