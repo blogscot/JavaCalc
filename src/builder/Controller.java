@@ -13,21 +13,51 @@ public class Controller implements Initializable{
 	private float currentNumber = 0f;
 	private float memory = 0f;
 	private char lastOperation = ' ';
-	private boolean waitingOperator = false;
+	private boolean operatorActive = false;
 	
+	/**
+	 * @return the displayed text as a Float
+	 * 
+	 */
 	private float getCurrentNumber() {
 		return Float.parseFloat(output.getText());
 	}
 	
+	/**
+	 * The displayed number is built up and displayed
+	 * as the user issues keystrokes.
+	 * 
+	 * @param 	value the value key pressed by the user
+	 */
 	private void updateCurrentNumber(float value){
-		if (getCurrentNumber() == 0f || waitingOperator) {
+		if (getCurrentNumber() == 0f || operatorActive) {
 			output.setText(Float.toString(value));
-			waitingOperator = false;
+			operatorActive = false;
 		} else {
 			output.setText(Float.toString(getCurrentNumber() * 10 + value));
 		}
 	}
-	
+	/**
+	 * The user has pressed an operator key (i.e. +, - etc.)
+	 * 
+	 * @param c		operator key pressed
+	 */
+	private void processOperator(char c) {
+		if (lastOperation != ' ') {
+			evaluateResult();
+		} else {
+			lastNumber = getCurrentNumber();
+			output.setText("0");
+			lastOperation = c;
+		}
+	}
+
+	/**
+	 * 
+	 * When the user presses '=' or an operator key 
+	 * the current value is evaluated and displayed.
+	 * 
+	 */
 	private void evaluateResult() {
 		currentNumber = getCurrentNumber();
 		
@@ -50,7 +80,7 @@ public class Controller implements Initializable{
 			output.setText("NaN");
 		}
 		// following evaluation users can chain operators but not digits
-		waitingOperator = true;
+		operatorActive = true;
 		output.setText(String.valueOf(lastNumber));
 	}
 	
@@ -101,40 +131,16 @@ public class Controller implements Initializable{
 		output.setText(String.valueOf(memory));
 	}
 	public void plus(){
-		if (lastOperation != ' ') {
-			evaluateResult();
-		} else {
-			lastNumber = getCurrentNumber();
-			output.setText("0");
-			lastOperation = '+';
-		}
+		processOperator('+');
 	}
 	public void minus(){
-		if (lastOperation != ' ') {
-			evaluateResult();
-		} else {
-			lastNumber = getCurrentNumber();
-			output.setText("0");
-			lastOperation = '-';
-		}
+		processOperator('-');
 	}
 	public void divide(){
-		if (lastOperation != ' ') {
-			evaluateResult();
-		} else {
-			lastNumber = getCurrentNumber();
-			output.setText("0");
-			lastOperation = '/';
-		}
+		processOperator('/');
 	}
 	public void multiply(){
-		if (lastOperation != ' ') {
-			evaluateResult();
-		} else {
-			lastNumber = getCurrentNumber();
-			output.setText("0");
-			lastOperation = '*';
-		}
+		processOperator('*');
 	}
 	public void decimal(){
 		// TODO
@@ -154,8 +160,5 @@ public class Controller implements Initializable{
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
-		
-		
 	}
-
 }
