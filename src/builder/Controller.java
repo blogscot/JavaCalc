@@ -13,7 +13,7 @@ public class Controller implements Initializable {
 	private double memory = 0;
 	private double storedNumber = 0;
 	private static final char EMPTY = ' ';
-	private char operatorKey = EMPTY;
+	private char storedKey = EMPTY;
 	private boolean startNewNumber = true;
 	private boolean hasDecimal = false;
 
@@ -58,20 +58,22 @@ public class Controller implements Initializable {
 	 * @param c
 	 *            operator key pressed
 	 */
-	private void processOperator(char c) {
+	private void processOperator(char operator) {
 
 		// Start a new number whenever an operator is pressed
 		startNewNumber = true;
+		hasDecimal = false;
 
-		if (operatorKey == EMPTY) {
+		if (storedKey == EMPTY) {
 			// first operator pressed i.e. 1+
 			// store current number and the operator pressed
 			// in preparation for next number
 			storedNumber = Double.parseDouble(currentNumber);
-			operatorKey = c;
+			storedKey = operator;
 		} else {
 			// chaining operators (i.e. 1+1+...)
 			evaluateResult();
+			storedKey = operator;
 		}
 	}
 
@@ -83,14 +85,14 @@ public class Controller implements Initializable {
 	 *            the running expression value
 	 * @param currentNumber
 	 *            the latest user number
-	 * @param operatorKey
+	 * @param storedKey
 	 *            the user selected operation
 	 */
 	private void evaluateResult() {
 
 		double number = Double.parseDouble(currentNumber);
 
-		switch (operatorKey) {
+		switch (storedKey) {
 		case '/':
 			storedNumber /= number;
 			break;
@@ -121,7 +123,7 @@ public class Controller implements Initializable {
 		// clear display and stored values
 		output.setText("0.0");
 		storedNumber = 0;
-		operatorKey = EMPTY;
+		storedKey = EMPTY;
 		// reset number parsing
 		startNewNumber = true;
 		hasDecimal = false;
