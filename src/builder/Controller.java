@@ -172,6 +172,7 @@ public class Controller implements Initializable {
 
 	public void decimal() {
 		if (!hasDecimal) {
+			hasDecimal = true;
 			updateCurrentKey(".");
 		}
 	}
