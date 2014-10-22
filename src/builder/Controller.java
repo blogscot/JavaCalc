@@ -16,6 +16,7 @@ public class Controller implements Initializable {
 	private char storedKey = EMPTY;
 	private boolean startNewNumber = true;
 	private boolean hasDecimal = false;
+	private boolean equalsPressed = false;
 
 	private void displayNumber(String value) {
 		output.setText(value);
@@ -35,6 +36,10 @@ public class Controller implements Initializable {
 	private void updateCurrentKey(String key) {
 		// At the beginning of a new calculation or after the user presses
 		// an operator key start displaying a new number
+
+		// we've started a new number so clear flag
+		equalsPressed = false;
+
 		if (startNewNumber) {
 			if (key == ".") {
 				// User pressed decimal key first
@@ -71,10 +76,17 @@ public class Controller implements Initializable {
 			storedNumber = Double.parseDouble(currentNumber);
 			storedKey = operator;
 		} else {
+			// Note: a calculator has the behaviour if the previous
+			// key press was '=' (instead of a digit), pressing
+			// an operator key (+,-,/,*) does not cause a new evaluate
+			if (equalsPressed) {
+				storedKey = operator;
+			} else {
 			// chaining operators (i.e. 1+1+...)
 			evaluateResult();
-			storedKey = operator;
+			storedKey = operator; }
 		}
+		equalsPressed = false;
 	}
 
 	/**
@@ -113,17 +125,34 @@ public class Controller implements Initializable {
 	}
 
 	public void evaluate() {
+		equalsPressed = true;
 		evaluateResult();
 		// reset number parsing
 		startNewNumber = true;
 		hasDecimal = false;
 	}
 
+	// It is possible to reverse the sign of the calculated
+	// expression or the current value being typed. 
+	public void reverseSign() {
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			storedNumber = storedNumber * -1;
+			displayNumber(storedNumber);
+		} else {
+			// currentNumber is displayed
+			currentNumber = String.valueOf(Double.parseDouble(currentNumber) * -1);
+			displayNumber(currentNumber);
+		}
+	}
+
 	public void clearAll() {
-		// clear display and stored values
+		// clear display and stored values and flags
 		output.setText("0.0");
 		storedNumber = 0;
 		storedKey = EMPTY;
+		equalsPressed = true;
 		// reset number parsing
 		startNewNumber = true;
 		hasDecimal = false;
@@ -209,11 +238,6 @@ public class Controller implements Initializable {
 
 	public void multiply() {
 		processOperator('*');
-	}
-
-	public void reverseSign() {
-		currentNumber = String.valueOf(Double.parseDouble(currentNumber) * -1);
-		displayNumber(currentNumber);
 	}
 
 	@Override
