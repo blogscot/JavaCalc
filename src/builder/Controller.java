@@ -213,14 +213,29 @@ public class Controller implements Initializable {
 	}
 
 	public void memPlus() {
-		memory += Double.parseDouble(currentNumber);
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			memory += storedNumber;
+		} else {
+			// currentNumber is displayed
+			memory += Double.parseDouble(currentNumber);
+		}
 	}
 
 	public void memMinus() {
-		memory -= Double.parseDouble(currentNumber);
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			memory -= storedNumber;
+		} else {
+			// currentNumber is displayed
+			memory -= Double.parseDouble(currentNumber);
+		}
 	}
 
 	public void memRecall() {
+		currentNumber = String.valueOf(memory);
 		displayNumber(memory);
 	}
 
