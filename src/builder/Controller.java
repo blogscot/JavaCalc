@@ -151,6 +151,7 @@ public class Controller implements Initializable {
 		// clear display and stored values and flags
 		output.setText("0.0");
 		storedNumber = 0;
+		currentNumber = "";
 		storedKey = EMPTY;
 		equalsPressed = true;
 		// reset number parsing
