@@ -192,6 +192,8 @@ public class Controller implements Initializable {
 		storedNumber = 0;
 		decimalPlace = 0;
 		operatorKey = CLEAR;
+		storedNumber = 0;
+		currentNumber = 0;
 	}
 
 	@Override
