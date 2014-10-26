@@ -9,38 +9,50 @@ import javafx.scene.control.Label;
 
 public class Controller implements Initializable {
 
-	private double storedNumber = 0;
-	private double currentNumber = 0;
-	private int decimalPlace = 0;
+	private String currentNumber = "";
 	private double memory = 0;
-	private static final char CLEAR = ' ';
-	private char operatorKey = CLEAR;
+	private double storedNumber = 0;
+	private static final char EMPTY = ' ';
+	private char storedKey = EMPTY;
 	private boolean startNewNumber = true;
+	private boolean hasDecimal = false;
+	private boolean equalsPressed = false;
 
-	private void displayNumber(double value) {
-		output.setText(Double.toString(value));
+	private void displayNumber(String value) {
+		output.setText(value);
+	}
+
+	private void displayNumber(Double value) {
+		output.setText(String.valueOf(value));
 	}
 
 	/**
 	 * The displayed number is built up and displayed as the user issues
 	 * keystrokes.
 	 * 
-	 * @param value
-	 *            the value key pressed by the user
+	 * @param key
+	 *            the digit or decimal pressed by the user
 	 */
-	private void updateCurrentNumber(double value) {
-		// After the user presses an operator key start displaying a new number
+	private void updateCurrentKey(String key) {
+		// At the beginning of a new calculation or after the user presses
+		// an operator key start displaying a new number
+
+		// we've started a new number so clear flag
+		equalsPressed = false;
+
 		if (startNewNumber) {
-			currentNumber = value;
-			startNewNumber = false;
-			decimalPlace = 0;
-		} else {
-			if (decimalPlace == 0) {
-				currentNumber = currentNumber * 10 + value;
+			if (key == ".") {
+				// User pressed decimal key first
+				// Append number after decimal
+				currentNumber = "0.";
+				hasDecimal = true;
 			} else {
-				currentNumber += value / Math.pow(10, decimalPlace);
-				decimalPlace += 1;
+				// user presses a digit first
+				currentNumber = key;
 			}
+			startNewNumber = false;
+		} else {
+			currentNumber += key;
 		}
 		displayNumber(currentNumber);
 	}
@@ -51,91 +63,149 @@ public class Controller implements Initializable {
 	 * @param c
 	 *            operator key pressed
 	 */
-	private void processOperator(char c) {
+	private void processOperator(char operator) {
 
+		// Start a new number whenever an operator is pressed
 		startNewNumber = true;
+		hasDecimal = false;
 
-		if (operatorKey == CLEAR) {
+		if (storedKey == EMPTY) {
+			// first operator pressed i.e. 1+
 			// store current number and the operator pressed
 			// in preparation for next number
-			storedNumber = currentNumber;
-			operatorKey = c;
+			storedNumber = Double.parseDouble(currentNumber);
+			storedKey = operator;
 		} else {
-			// chaining operators (ie. 1+1+...)
+			// Note: a calculator has the behaviour if the previous
+			// key press was '=' (instead of a digit), pressing
+			// an operator key (+,-,/,*) does not cause a new evaluate
+			if (equalsPressed) {
+				storedKey = operator;
+			} else {
+			// chaining operators (i.e. 1+1+...)
 			evaluateResult();
+			storedKey = operator; }
 		}
+		equalsPressed = false;
 	}
 
 	/**
-	 * 
-	 * When the user presses '=' or an operator key the current value is
+	 * When the user presses '=' or an operator key the current expression is
 	 * evaluated and displayed.
 	 * 
+	 * @param storedNumber
+	 *            the running expression value
+	 * @param currentNumber
+	 *            the latest user number
+	 * @param storedKey
+	 *            the user selected operation
 	 */
 	private void evaluateResult() {
 
-		switch (operatorKey) {
+		double number = Double.parseDouble(currentNumber);
+
+		switch (storedKey) {
 		case '/':
-			storedNumber /= currentNumber;
+			storedNumber /= number;
 			break;
 		case '*':
-			storedNumber *= currentNumber;
+			storedNumber *= number;
 			break;
 		case '-':
-			storedNumber -= currentNumber;
+			storedNumber -= number;
 			break;
 		case '+':
-			storedNumber += currentNumber;
+			storedNumber += number;
 			break;
 		default:
-			storedNumber = 0;
-			operatorKey = CLEAR;
+			// When the '=' key is repeatedly pressed repeat
+			// the last operator against the stored value.
 		}
-		currentNumber = storedNumber;
-		displayNumber(currentNumber);
+		displayNumber(storedNumber);
+	}
+
+	public void evaluate() {
+		equalsPressed = true;
+		evaluateResult();
+		// reset number parsing
+		startNewNumber = true;
+		hasDecimal = false;
+	}
+
+	// It is possible to reverse the sign of the calculated
+	// expression or the current value being typed. 
+	public void reverseSign() {
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			storedNumber = storedNumber * -1;
+			displayNumber(storedNumber);
+		} else {
+			// currentNumber is displayed
+			currentNumber = String.valueOf(Double.parseDouble(currentNumber) * -1);
+			displayNumber(currentNumber);
+		}
+	}
+
+	public void clearAll() {
+		// clear display and stored values and flags
+		output.setText("0.0");
+		storedNumber = 0;
+		storedKey = EMPTY;
+		equalsPressed = true;
+		// reset number parsing
+		startNewNumber = true;
+		hasDecimal = false;
 	}
 
 	@FXML
 	private Label output;
 
 	public void one() {
-		updateCurrentNumber(1);
+		updateCurrentKey("1");
 	}
 
 	public void two() {
-		updateCurrentNumber(2);
+		updateCurrentKey("2");
 	}
 
 	public void three() {
-		updateCurrentNumber(3);
+		updateCurrentKey("3");
 	}
 
 	public void four() {
-		updateCurrentNumber(4);
+		updateCurrentKey("4");
 	}
 
 	public void five() {
-		updateCurrentNumber(5);
+		updateCurrentKey("5");
 	}
 
 	public void six() {
-		updateCurrentNumber(6);
+		updateCurrentKey("6");
 	}
 
 	public void seven() {
-		updateCurrentNumber(7);
+		updateCurrentKey("7");
 	}
 
 	public void eight() {
-		updateCurrentNumber(8);
+		updateCurrentKey("8");
 	}
 
 	public void nine() {
-		updateCurrentNumber(9);
+		updateCurrentKey("9");
 	}
 
 	public void zero() {
-		updateCurrentNumber(0);
+		updateCurrentKey("0");
+	}
+
+	public void decimal() {
+		if (!hasDecimal) {
+			hasDecimal = true;
+			updateCurrentKey(".");
+		}
 	}
 
 	public void memClear() {
@@ -143,15 +213,30 @@ public class Controller implements Initializable {
 	}
 
 	public void memPlus() {
-		memory += currentNumber;
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			memory += storedNumber;
+		} else {
+			// currentNumber is displayed
+			memory += Double.parseDouble(currentNumber);
+		}
 	}
 
 	public void memMinus() {
-		memory -= currentNumber;
+		
+		if (equalsPressed) {
+			// storedNumber is displayed
+			memory -= storedNumber;
+		} else {
+			// currentNumber is displayed
+			memory -= Double.parseDouble(currentNumber);
+		}
 	}
 
 	public void memRecall() {
-		output.setText(String.valueOf(memory));
+		currentNumber = String.valueOf(memory);
+		displayNumber(memory);
 	}
 
 	public void plus() {
@@ -170,6 +255,7 @@ public class Controller implements Initializable {
 		processOperator('*');
 	}
 
+<<<<<<< HEAD
 	public void decimal() {
 		if (decimalPlace == 0){
 			decimalPlace = 1;
@@ -196,6 +282,8 @@ public class Controller implements Initializable {
 		currentNumber = 0;
 	}
 
+=======
+>>>>>>> origin/master
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
