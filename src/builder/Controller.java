@@ -256,35 +256,6 @@ public class Controller implements Initializable {
 		processOperator('*');
 	}
 
-<<<<<<< HEAD
-	public void decimal() {
-		if (decimalPlace == 0){
-			decimalPlace = 1;
-		}
-	}
-
-	public void evaluate() {
-		evaluateResult();
-		startNewNumber = true;
-		operatorKey = CLEAR;
-	}
-
-	public void reverseSign() {
-		currentNumber *= -1;
-		displayNumber(currentNumber);
-	}
-
-	public void clearAll() {
-		output.setText("0.0");
-		storedNumber = 0;
-		decimalPlace = 0;
-		operatorKey = CLEAR;
-		storedNumber = 0;
-		currentNumber = 0;
-	}
-
-=======
->>>>>>> origin/master
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		// TODO Auto-generated method stub
